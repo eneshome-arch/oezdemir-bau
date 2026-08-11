@@ -1,0 +1,271 @@
+import { useEffect, useState } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Link } from 'react-router-dom'
+import { ArrowRight, MapPin, Calendar, Ruler } from 'lucide-react'
+import AnimatedFireGlow from '@/components/AnimatedFireGlow'
+import { InfiniteDrift } from '@/components/lightswind/infinite-drift'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const driftBands = [
+  {
+    offsetY: -150,
+    speed: 0.8,
+    rotation: 5,
+    rotationType: 'fromLeft',
+    curveAmount: 30,
+    curveDirection: 1,
+    images: [
+      'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400',
+      'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400',
+      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400',
+      'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=400',
+    ],
+  },
+  {
+    offsetY: -50,
+    speed: 1.2,
+    rotation: 5,
+    rotationType: 'fromCenter',
+    curveAmount: 25,
+    curveDirection: 1,
+    images: [
+      'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=400',
+      'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400',
+      'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400',
+      'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400',
+    ],
+  },
+  {
+    offsetY: 50,
+    speed: 0.6,
+    rotation: 5,
+    curveAmount: 30,
+    curveDirection: 1,
+    images: [
+      'https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=400',
+      'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400',
+      'https://images.unsplash.com/photo-1590013330451-3946e83e0392?w=400',
+      'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400',
+    ],
+  },
+  {
+    offsetY: 150,
+    speed: 1.0,
+    rotation: 5,
+    curveAmount: 25,
+    curveDirection: 1,
+    images: [
+      'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400',
+      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400',
+      'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=400',
+      'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=400',
+    ],
+  },
+]
+
+const categories = ['Alle', 'Sanierung', 'Hochbau', 'Tiefbau', 'Gleisbau']
+
+const projects = [
+  {
+    title: 'Kernsanierung Altbauvilla',
+    category: 'Sanierung',
+    location: 'Hannover-Linden',
+    year: '2024',
+    area: '320 m²',
+    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
+    desc: 'Komplettsanierung einer denkmalgeschützten Villa aus dem Jahr 1908. Erhalt der historischen Fassade bei gleichzeitiger energetischer Modernisierung.',
+  },
+  {
+    title: 'Neubau Mehrfamilienhaus',
+    category: 'Hochbau',
+    location: 'Hannover-Bothfeld',
+    year: '2024',
+    area: '1.200 m²',
+    image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80',
+    desc: 'Schlüsselfertiger Neubau mit 12 Wohneinheiten. KfW-40-Standard, Tiefgarage und Außenanlagen inklusive.',
+  },
+  {
+    title: 'Gleissanierung Stadtbahn',
+    category: 'Gleisbau',
+    location: 'Hannover-Mitte',
+    year: '2023',
+    area: '2,4 km',
+    image: 'https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=800&q=80',
+    desc: 'Erneuerung der Gleisanlagen auf der Innenstadtstrecke der Üstra. Nachtarbeiten zur Minimierung der Verkehrsbeeinträchtigung.',
+  },
+  {
+    title: 'Kanalbau Gewerbegebiet',
+    category: 'Tiefbau',
+    location: 'Langenhagen',
+    year: '2023',
+    area: '850 m',
+    image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=800&q=80',
+    desc: 'Neuverlegung der Kanalisation im Gewerbegebiet Süd. Schmutz- und Regenwasserkanäle DN 300–800.',
+  },
+  {
+    title: 'Badsanierung Seniorenheim',
+    category: 'Sanierung',
+    location: 'Hannover-Döhren',
+    year: '2024',
+    area: '24 Bäder',
+    image: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&q=80',
+    desc: 'Barrierefreie Sanierung aller 24 Bäder im laufenden Betrieb. Bodengleiche Duschen, rutschfeste Fliesen, Haltegriffe.',
+  },
+  {
+    title: 'Bürogebäude Neubau',
+    category: 'Hochbau',
+    location: 'Hannover-Vahrenwald',
+    year: '2023',
+    area: '2.800 m²',
+    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80',
+    desc: 'Modernes Bürogebäude mit offenen Grundrissen, Dachterrasse und nachhaltiger Haustechnik.',
+  },
+]
+
+export default function Projekte() {
+  const [filter, setFilter] = useState('Alle')
+
+  const filtered = filter === 'Alle'
+    ? projects
+    : projects.filter(p => p.category === filter)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.page-heading > *', {
+        opacity: 0, y: 40, stagger: 0.12, duration: 0.7, ease: 'power3.out',
+      })
+    })
+    return () => ctx.revert()
+  }, [])
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.project-item', {
+        opacity: 0, y: 50, stagger: 0.08, duration: 0.6, ease: 'power3.out',
+      })
+    })
+    return () => ctx.revert()
+  }, [filter])
+
+  return (
+    <>
+      {/* Hero with InfiniteDrift */}
+      <section className="relative bg-[var(--navy)] overflow-hidden">
+        <AnimatedFireGlow />
+        <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 pt-32 sm:pt-40 pb-6 page-heading">
+          <div className="accent-line mb-5" />
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-4">
+            Unsere Projekte
+          </h1>
+          <p className="text-white/60 text-base sm:text-lg max-w-xl">
+            Eine Auswahl unserer erfolgreich abgeschlossenen Bauvorhaben.
+          </p>
+        </div>
+        <InfiniteDrift
+          bands={driftBands}
+          height={420}
+          gap={16}
+          imageHeight={110}
+          bandHeight={130}
+          maxImageWidth={280}
+          inertia={0.93}
+          className="bg-[var(--navy)]"
+        />
+      </section>
+
+      {/* Filter + Grid */}
+      <section className="bg-white py-16 sm:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          {/* Filter tabs */}
+          <div className="flex flex-wrap gap-2 mb-12">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setFilter(cat)}
+                className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors active:scale-[0.96] ${
+                  filter === cat
+                    ? 'bg-[var(--navy)] text-white'
+                    : 'bg-[var(--stone)] text-[var(--text-muted)] hover:bg-[var(--concrete)]'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Project grid — masonry-style with alternating sizes */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {filtered.map((project, i) => {
+              const isLarge = i % 3 === 0
+              return (
+                <div
+                  key={project.title}
+                  className={`project-item group relative overflow-hidden rounded-2xl ${
+                    isLarge ? 'md:col-span-2 h-80 sm:h-96' : 'h-72 sm:h-80'
+                  }`}
+                >
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
+                    <span className="inline-block bg-[var(--accent)] text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded mb-3">
+                      {project.category}
+                    </span>
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
+                      {project.title}
+                    </h3>
+                    <p className="text-white/70 text-sm mb-4 max-w-lg hidden sm:block">
+                      {project.desc}
+                    </p>
+                    <div className="flex flex-wrap items-center gap-4 text-white/50 text-xs sm:text-sm">
+                      <span className="flex items-center gap-1.5">
+                        <MapPin size={13} />
+                        {project.location}
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <Calendar size={13} />
+                        {project.year}
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <Ruler size={13} />
+                        {project.area}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-[var(--stone)] py-20 sm:py-24">
+        <div className="mx-auto max-w-4xl px-5 sm:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[var(--navy)] mb-4">
+            Ihr Projekt als nächstes?
+          </h2>
+          <p className="text-[var(--text-muted)] text-base sm:text-lg mb-8 max-w-xl mx-auto">
+            Lassen Sie uns gemeinsam Ihre Bauvision verwirklichen.
+          </p>
+          <Link
+            to="/kontakt"
+            className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-8 py-4 rounded-lg font-bold transition-colors active:scale-[0.96]"
+          >
+            Projekt besprechen
+            <ArrowRight size={18} />
+          </Link>
+        </div>
+      </section>
+
+    </>
+  )
+}

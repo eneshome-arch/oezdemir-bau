@@ -1,16 +1,22 @@
 import { useState, useEffect } from 'react'
-import { Menu, X } from 'lucide-react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Phone } from 'lucide-react'
+import { HamburgerMenuOverlay } from '@/components/lightswind/HamburgerMenuOverlay'
 
-const NAV_LINKS = [
-  { label: 'Leistungen', href: '#leistungen' },
-  { label: 'Projekte', href: '#projekte' },
-  { label: 'Über uns', href: '#ueber-uns' },
-  { label: 'Kontakt', href: '#kontakt' },
+const links = [
+  { to: '/', label: 'Startseite' },
+  { to: '/leistungen', label: 'Leistungen' },
+  { to: '/projekte', label: 'Projekte' },
+  { to: '/ueber-uns', label: 'Über uns' },
+  { to: '/karriere', label: 'Karriere' },
+  { to: '/kontakt', label: 'Kontakt' },
 ]
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
+  const location = useLocation()
+  const navigate = useNavigate()
+  const isHome = location.pathname === '/'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -18,91 +24,75 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const handleClick = (e, href) => {
-    e.preventDefault()
-    setMobileOpen(false)
-    const el = document.querySelector(href)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
-  }
+  const navBg = scrolled || !isHome
+    ? 'bg-white/95 backdrop-blur-md shadow-sm'
+    : 'bg-transparent'
+
+  const textColor = scrolled || !isHome ? 'text-[var(--navy)]' : 'text-white'
+  const logoAccent = scrolled || !isHome ? 'text-[var(--accent)]' : 'text-white'
+
+  const menuItems = links.map(({ to, label }) => ({
+    label,
+    onClick: () => navigate(to),
+  }))
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? 'bg-black/80 backdrop-blur-xl border-b border-white/5'
-          : 'bg-transparent'
-      }`}>
-        <div className="max-w-7xl mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
-          {/* Logo */}
-          <a href="#" className="relative z-10 flex items-center gap-3 group">
-            <div className="w-10 h-10 border-2 border-[#d4af37] rounded-lg flex items-center justify-center group-hover:bg-[#d4af37]/10 transition-colors duration-300">
-              <span className="text-[#d4af37] font-bold text-lg">Ö</span>
-            </div>
-            <div className="hidden sm:block">
-              <p className="text-white font-semibold text-sm tracking-wide leading-none">ÖZDEMIR</p>
-              <p className="text-[#d4af37] text-[10px] font-medium tracking-[0.3em] uppercase">Bau GmbH</p>
-            </div>
-          </a>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${navBg}`}>
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="flex h-18 sm:h-20 items-center justify-between">
+            <Link to="/" className="flex items-center gap-1.5 relative z-[1002]">
+              <span className={`text-xl sm:text-2xl font-extrabold tracking-tight ${textColor} transition-colors`}>ÖZDEMIR</span>
+              <span className={`text-xl sm:text-2xl font-light tracking-tight ${logoAccent} transition-colors`}>BAU</span>
+            </Link>
 
-          {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-1">
-            {NAV_LINKS.map(link => (
+            {/* Desktop Nav */}
+            <div className="hidden lg:flex items-center gap-1">
+              {links.map(({ to, label }) => (
+                <Link
+                  key={to}
+                  to={to}
+                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                    location.pathname === to
+                      ? 'text-[var(--accent)] bg-[var(--accent)]/8'
+                      : `${textColor} hover:text-[var(--accent)]`
+                  }`}
+                >
+                  {label}
+                </Link>
+              ))}
               <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleClick(e, link.href)}
-                className="px-5 py-2.5 text-sm text-white/60 hover:text-white font-medium tracking-wide transition-colors duration-300 relative group"
+                href="tel:+4951112345678"
+                className="ml-4 inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors active:scale-[0.96]"
               >
-                {link.label}
-                <span className="absolute bottom-1 left-5 right-5 h-px bg-[#d4af37] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                <Phone size={15} />
+                Anrufen
               </a>
-            ))}
-          </div>
+            </div>
 
-          {/* CTA + Mobile Toggle */}
-          <div className="flex items-center gap-4">
-            <a
-              href="#kontakt"
-              onClick={(e) => handleClick(e, '#kontakt')}
-              className="hidden md:inline-flex px-6 py-2.5 bg-[#d4af37] text-black text-sm font-semibold rounded-full hover:bg-[#e8c84a] transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,175,55,0.3)]"
-            >
-              Projekt anfragen
-            </a>
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden w-10 h-10 flex items-center justify-center text-white"
-            >
-              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            {/* Mobile Hamburger */}
+            <div className="lg:hidden relative">
+              <HamburgerMenuOverlay
+                items={menuItems}
+                buttonTop="40px"
+                buttonLeft="calc(100vw - 40px)"
+                buttonSize="md"
+                buttonColor="var(--accent)"
+                overlayBackground="var(--navy)"
+                textColor="#ffffff"
+                fontSize="lg"
+                fontFamily="'Inter', system-ui, sans-serif"
+                fontWeight="bold"
+                animationDuration={0.8}
+                staggerDelay={0.08}
+                menuAlignment="center"
+                zIndex={1000}
+                ariaLabel="Hauptnavigation"
+              />
+            </div>
           </div>
         </div>
       </nav>
-
-      {/* Mobile Menu */}
-      <div className={`fixed inset-0 z-40 bg-black/95 backdrop-blur-2xl flex flex-col items-center justify-center transition-all duration-500 ${
-        mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-      }`}>
-        <div className="flex flex-col items-center gap-8">
-          {NAV_LINKS.map((link, i) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={(e) => handleClick(e, link.href)}
-              className="text-3xl font-light text-white/80 hover:text-[#d4af37] transition-colors duration-300"
-              style={{ transitionDelay: `${i * 50}ms` }}
-            >
-              {link.label}
-            </a>
-          ))}
-          <a
-            href="#kontakt"
-            onClick={(e) => handleClick(e, '#kontakt')}
-            className="mt-4 px-10 py-4 bg-[#d4af37] text-black text-lg font-semibold rounded-full hover:bg-[#e8c84a] transition-all duration-300"
-          >
-            Projekt anfragen
-          </a>
-        </div>
-      </div>
     </>
   )
 }

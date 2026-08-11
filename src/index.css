@@ -1,5 +1,6 @@
-@import "tailwindcss";
-
+@import 'tailwindcss';
+@plugin 'lightswind/plugin';
+/* ── Fonts ── */
 @font-face {
   font-family: 'Inter';
   font-style: normal;
@@ -8,36 +9,106 @@
   src: url('https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjQ.woff2') format('woff2');
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* ── Custom Properties ── */
+:root {
+  --navy: #0f1923;
+  --navy-light: #1a2b3c;
+  --concrete: #e8e5e0;
+  --concrete-dark: #c4bfb8;
+  --stone: #f5f0eb;
+  --accent: #e8710a;
+  --accent-hover: #d4660a;
+  --steel: #3a4550;
+  --text-dark: #1a1a1a;
+  --text-muted: #5a6570;
 }
 
+/* ── Base ── */
 html {
-  scroll-behavior: auto; /* Lenis handles smooth scroll */
+  scroll-behavior: auto;
 }
 
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: #000;
-  color: #fff;
+  background-color: #fff;
+  color: var(--text-dark);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  font-size: 16px;
-  line-height: 1.55;
-  letter-spacing: -0.011em;
+  line-height: 1.6;
 }
 
-/* Type scale — semantic names, headings line-height 1.1 */
+/* ── Typography ── */
 h1, h2, h3, h4 {
-  line-height: 1.1;
+  line-height: 1.08;
   text-wrap: balance;
+  font-weight: 700;
 }
-p { text-wrap: pretty; }
 
-/* Reduced motion — opt-in pattern */
+p {
+  text-wrap: pretty;
+}
+
+/* ── Lenis ── */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+/* ── Selection ── */
+::selection {
+  background: rgba(232, 113, 10, 0.2);
+  color: var(--text-dark);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--stone); }
+::-webkit-scrollbar-thumb { background: var(--concrete-dark); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--steel); }
+
+/* ── Reveal animation ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Diagonal clip ── */
+.clip-diagonal {
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+.clip-diagonal-reverse {
+  clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+}
+
+/* ── Accent line ── */
+.accent-line {
+  width: 60px;
+  height: 4px;
+  background: var(--accent);
+}
+
+/* ── Image reveal on scroll ── */
+.img-reveal {
+  overflow: hidden;
+}
+.img-reveal img {
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.img-reveal:hover img {
+  transform: scale(1.05);
+}
+
+/* ── Accessibility ── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -47,16 +118,11 @@ p { text-wrap: pretty; }
   }
 }
 
-/* Focus visible — accessible focus rings */
 :focus-visible {
-  outline: 2px solid oklch(0.8 0.15 85);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
-:focus:not(:focus-visible) {
-  outline: none;
-}
 
-/* Screen reader only */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -67,89 +133,4 @@ p { text-wrap: pretty; }
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
-}
-
-/* Smooth scroll container for Lenis */
-html.lenis, html.lenis body {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-/* Selection */
-::selection {
-  background: rgba(212, 175, 55, 0.3);
-  color: #fff;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 2px;
-}
-
-/* Gradient text helper */
-.gradient-text {
-  background: linear-gradient(135deg, #d4af37, #f5e6a3, #d4af37);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Glass effect */
-.glass {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-/* Noise texture overlay */
-.noise::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9999;
-}
-
-/* Reveal animation base */
-.reveal {
-  opacity: 0;
-  transform: translateY(60px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Magnetic button hover */
-.magnetic-btn {
-  transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
-}
-
-/* Line reveal */
-@keyframes lineReveal {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-
-/* Parallax layer */
-.parallax-layer {
-  will-change: transform;
 }

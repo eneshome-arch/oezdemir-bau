@@ -1,26 +1,33 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useLenis } from './hooks/useLenis'
 import Navbar from './components/Navbar'
-import Hero from './sections/Hero'
-import Services from './sections/Services'
-import Stats from './sections/Stats'
-import Projects from './sections/Projects'
-import About from './sections/About'
-import Contact from './sections/Contact'
-import Footer from './sections/Footer'
+import Footer from './components/Footer'
+import Home from './pages/Home'
+import Leistungen from './pages/Leistungen'
+import Projekte from './pages/Projekte'
+import UeberUns from './pages/UeberUns'
+import Kontakt from './pages/Kontakt'
+import Karriere from './pages/Karriere'
+import ScrollToTop from './components/ScrollToTop'
 
 export default function App() {
   useLenis()
 
   return (
-    <div className="noise">
+    <BrowserRouter>
+      <ScrollToTop />
       <Navbar />
-      <Hero />
-      <Services />
-      <Stats />
-      <Projects />
-      <About />
-      <Contact />
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/leistungen" element={<Leistungen />} />
+          <Route path="/projekte" element={<Projekte />} />
+          <Route path="/ueber-uns" element={<UeberUns />} />
+          <Route path="/kontakt" element={<Kontakt />} />
+          <Route path="/karriere" element={<Karriere />} />
+        </Routes>
+      </main>
       <Footer />
-    </div>
+    </BrowserRouter>
   )
 }

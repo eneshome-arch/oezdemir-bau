@@ -10,6 +10,11 @@ Cinematische Multi-Page Website für Özdemir Bau GmbH, Bauunternehmen aus Hanno
 - Lucide React Icons
 - Docker + Nginx (Coolify Deployment)
 
+## Navigation
+
+- Desktop: Horizontale Navbar mit Links und Anrufen-Button
+- Mobile: Hamburger-Button im Header, Fullscreen-Overlay mit orangem Hintergrund, gestaffelte Einblend-Animation
+
 ## Seiten
 
 - **Home** — Hero mit AnimatedFireGlow + 3D Image Slider, TypewriterInput-Banner, ParticlesBackground + 3D Arc Carousel (Leistungen), InfiniteDrift Projekte-Galerie, Privat/Gewerblich Hover-Cards, Standort mit Google Maps, Kundenstimmen mit 3D ScrollTrigger, CTA Split

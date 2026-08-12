@@ -28,8 +28,8 @@ Geschäftsführer: Cem Özdemir. Adresse: Bremer Straße 31, 30827 Garbsen.
 ## Struktur
 ```
 src/
-  components/       → Navbar, Footer, ScrollToTop, AnimatedFireGlow, ThreeDArcCarousel, TypewriterInput
-  components/lightswind/ → 3d-image-slider, infinite-drift, HamburgerMenuOverlay, globe, ThreeDScrollTrigger, ParticlesBackground, Iphone16Pro, ScrollList, satin-flow
+  components/       → Navbar (eigenes Mobile-Menü mit orangem Fullscreen-Overlay), Footer, ScrollToTop, AnimatedFireGlow, ThreeDArcCarousel, TypewriterInput
+  components/lightswind/ → 3d-image-slider, infinite-drift, globe, ThreeDScrollTrigger, ParticlesBackground, satin-flow
   pages/            → Home, Leistungen, Projekte, UeberUns, Kontakt, Karriere
   hooks/            → use-mobile, use-toast
   lib/              → utils (cn)

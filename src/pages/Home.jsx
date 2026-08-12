@@ -7,6 +7,7 @@ import ImageSlider3D from '@/components/lightswind/3d-image-slider'
 import ThreeDArcCarousel from '@/components/ThreeDArcCarousel'
 import TypewriterInput from '@/components/TypewriterInput'
 import { ThreeDScrollTriggerContainer, ThreeDScrollTriggerRow } from '@/components/lightswind/ThreeDScrollTrigger'
+import ThreeDImageCarousel from '@/components/lightswind/ThreeDImageCarousel'
 import SatinFlow from '@/components/lightswind/satin-flow'
 import AnimatedFireGlow from '@/components/AnimatedFireGlow'
 import ParticlesBackground from '@/components/lightswind/ParticlesBackground'
@@ -70,6 +71,26 @@ const regions = [
   'Hannover', 'Langenhagen', 'Laatzen', 'Garbsen', 'Barsinghausen',
   'Burgdorf', 'Isernhagen', 'Seelze', 'Wunstorf', 'Neustadt a. Rbge.',
 ]
+
+function TestimonialCard({ text, name, role, className = '' }) {
+  return (
+    <div className={`relative bg-[var(--stone)] rounded-2xl p-6 sm:p-8 lg:p-10 ${className}`}>
+      <Quote size={32} className="text-[var(--accent)]/20 mb-4" />
+      <p className="text-[var(--navy)] text-base leading-relaxed mb-6">
+        „{text}"
+      </p>
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full bg-[var(--navy)] flex items-center justify-center text-white text-xs font-bold shrink-0">
+          {name.split(' ').map(w => w[0]).join('').slice(0, 2)}
+        </div>
+        <div>
+          <p className="text-sm font-bold text-[var(--navy)]">{name}</p>
+          <p className="text-xs text-[var(--text-muted)]">{role}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function Home() {
   const heroRef = useRef(null)
@@ -356,24 +377,18 @@ export default function Home() {
             </p>
           </div>
 
-          <ThreeDScrollTriggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 lg:gap-8" perspective={1200}>
-            {testimonials.map(({ text, name, role }, i) => (
-              <ThreeDScrollTriggerRow key={name} index={i}>
-                <div className="relative bg-[var(--stone)] rounded-2xl p-6 sm:p-8 lg:p-10 h-full">
-                  <Quote size={32} className="text-[var(--accent)]/20 mb-4" />
-                  <p className="text-[var(--navy)] text-base leading-relaxed mb-6">
-                    „{text}"
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[var(--navy)] flex items-center justify-center text-white text-xs font-bold">
-                      {name.split(' ').map(w => w[0]).join('').slice(0, 2)}
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-[var(--navy)]">{name}</p>
-                      <p className="text-xs text-[var(--text-muted)]">{role}</p>
-                    </div>
-                  </div>
-                </div>
+          {/* Mobile / kleine Geräte: 3D-Karussell */}
+          <div className="md:hidden">
+            <ThreeDImageCarousel
+              items={testimonials.map((t) => ({ content: <TestimonialCard {...t} /> }))}
+            />
+          </div>
+
+          {/* Ab Tablet: Grid mit 3D-Scroll-Trigger */}
+          <ThreeDScrollTriggerContainer className="hidden md:grid md:grid-cols-3 gap-5 sm:gap-6 lg:gap-8" perspective={1200}>
+            {testimonials.map((t, i) => (
+              <ThreeDScrollTriggerRow key={t.name} index={i}>
+                <TestimonialCard {...t} className="h-full" />
               </ThreeDScrollTriggerRow>
             ))}
           </ThreeDScrollTriggerContainer>

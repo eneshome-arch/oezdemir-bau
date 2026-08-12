@@ -44,3 +44,28 @@ src/
 - Stagger-Animationen beim Scrollen
 - CSS Custom Properties für Theming
 - focus-visible, prefers-reduced-motion
+- Ultra-moderner Webauftritt, cinematisch, Apple/Tesla-Level Design
+- Lightswind UI Komponenten bevorzugen (npx lightswind add <name>)
+
+## UI/Animation Skills (immer anwenden)
+- Concentric border radius: outer = inner + padding
+- Split+stagger enter animations: ~100ms zwischen Elementen, blur 4px→0, opacity 0→1, translateY
+- Scale on press: 0.96, nie unter 0.95
+- Shadows für Elevation, Borders für Struktur
+- Nie `transition: all` — exakte Properties angeben
+- Type scale: Headings line-height 1.1, Body 1.5–1.6
+- Letter-spacing: negativ für groß (display), positiv für klein (caps/labels)
+- text-wrap: balance für Headings, pretty für Beschreibungen
+- 60–75 Zeichen Measure (max-w-xl oder max-w-2xl)
+- Native Elemente first (button/a/dialog)
+- focus-visible für Focus-Ringe
+- 24x24px Minimum Hit Areas
+- prefers-reduced-motion respektieren
+- Verb-first Buttons (spezifische Aktion)
+- Errors: sagen wie man fixt, neben dem Fehler platzieren
+
+## Nutzer
+- Enes, Inhaber Zeitblick Personalservice, arbeitet auch an Özdemir Bau Website
+- Kommuniziert auf Deutsch, kurz und direkt
+- Technisch interessiert aber kein Entwickler — klare Anleitungen bei Drittanbieter-Tools
+- Trifft inhaltliche und gestalterische Entscheidungen selbst

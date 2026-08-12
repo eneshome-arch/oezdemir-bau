@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -9,16 +9,21 @@ import TypewriterInput from '@/components/TypewriterInput'
 import { ThreeDScrollTriggerContainer, ThreeDScrollTriggerRow } from '@/components/lightswind/ThreeDScrollTrigger'
 import SatinFlow from '@/components/lightswind/satin-flow'
 import AnimatedFireGlow from '@/components/AnimatedFireGlow'
+import ParticlesBackground from '@/components/lightswind/ParticlesBackground'
+import { InfiniteDrift } from '@/components/lightswind/infinite-drift'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const carouselItems = [
-  { image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80', title: 'Kernsanierung', category: 'Sanierung', description: 'Komplettsanierung von Bestandsgebäuden – Statik, Elektrik, Sanitär und Innenausbau aus einer Hand.' },
-  { image: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&q=80', title: 'Badsanierung', category: 'Sanierung', description: 'Vom Altbau-Bad zum modernen Wellness-Bereich. Planung, Fliesen, Installation – barrierefrei auf Wunsch.' },
-  { image: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80', title: 'Hochbau', category: 'Neubau', description: 'Neubau von Wohn- und Gewerbeimmobilien. Vom Fundament bis zum Dach.' },
-  { image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=800&q=80', title: 'Tiefbau', category: 'Infrastruktur', description: 'Erdarbeiten, Kanalbau, Leitungsverlegung und Straßenbau.' },
-  { image: 'https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=800&q=80', title: 'Gleisbau', category: 'Infrastruktur', description: 'Professioneller Gleisbau und Gleissanierung für Nah- und Fernverkehr.' },
-  { image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80', title: 'Innenausbau', category: 'Ausbau', description: 'Trockenbau, Bodenbeläge, Malerarbeiten und Akustik – alles aus einer Hand.' },
+  { image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80', title: 'Entkernung & Rückbau', category: 'Sanierung', description: 'Professionelle Entkernung, Rückbau und fachgerechte Entsorgung aller Baumaterialien.' },
+  { image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80', title: 'Trockenbau & Innenausbau', category: 'Ausbau', description: 'Ständerwerk, Grundrissänderungen, Wanddurchbrüche und kompletter Innenausbau.' },
+  { image: 'https://images.unsplash.com/photo-1562259929-b4e1fd3aef09?w=800&q=80', title: 'Putz- & Malerarbeiten', category: 'Ausbau', description: 'Perfekte Oberflächen – Innen- und Außenputz, Spachtel- und Malerarbeiten.' },
+  { image: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&q=80', title: 'Fliesen & Bodenbeläge', category: 'Ausbau', description: 'Fliesen, Parkett, Vinyl, Estrich – alle Bodenbeläge fachgerecht verlegt.' },
+  { image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&q=80', title: 'Bad- & Sanitärsanierung', category: 'Sanierung', description: 'Komplettsanierung von Bädern und Sanitäranlagen – barrierefrei auf Wunsch.' },
+  { image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&q=80', title: 'Elektro & Haustechnik', category: 'Technik', description: 'Elektroinstallationen, Heizungs- und Sanitärarbeiten aus einer Hand.' },
+  { image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80', title: 'Dämmung & Energiesanierung', category: 'Sanierung', description: 'Fassade, Dach, Fenster – energetische Sanierung für maximale Effizienz.' },
+  { image: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80', title: 'Fassaden- & Dachsanierung', category: 'Sanierung', description: 'Schutz der Gebäudehülle vor Witterung und Substanzverlust.' },
+  { image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80', title: 'Kernsanierung', category: 'Sanierung', description: 'Koordination sämtlicher Gewerke bis zur bezugsfertigen Übergabe.' },
 ]
 
 const sliderImages = [
@@ -36,9 +41,9 @@ const sliderImages = [
 
 const typewriterPhrases = [
   '500+ Projekte erfolgreich abgeschlossen.',
-  '15+ Jahre Erfahrung im Hoch- und Tiefbau.',
+  '15+ Jahre Erfahrung in Sanierung & Ausbau.',
   '50+ qualifizierte Fachkräfte im Team.',
-  '100% Kundenzufriedenheit – ohne Kompromisse.',
+  'Von der Entkernung bis zur bezugsfertigen Übergabe.',
   'Ihr zuverlässiger Partner in der Region Hannover.',
 ]
 
@@ -68,6 +73,11 @@ const regions = [
 
 export default function Home() {
   const heroRef = useRef(null)
+  const [activeCard, setActiveCard] = useState(null)
+
+  const handleCardTap = (card) => {
+    setActiveCard(prev => prev === card ? null : card)
+  }
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -91,36 +101,36 @@ export default function Home() {
       <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden bg-[var(--navy)]">
         <AnimatedFireGlow />
 
-        <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 w-full py-28 sm:py-32">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+        <div className="relative z-10 mx-auto max-w-[90rem] px-[var(--space-container)] w-full py-24 sm:py-28 lg:py-32">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-8 items-center">
             <div>
-              <h1 className="hero-heading text-5xl sm:text-6xl md:text-7xl font-extrabold text-white leading-[1.02] mb-6">
+              <h1 className="hero-heading font-extrabold text-white leading-[1.02] mb-5 sm:mb-6">
                 Wir bauen<br />
                 <span className="text-[var(--accent)]">Ihre Zukunft.</span>
               </h1>
 
-              <p className="hero-sub text-base sm:text-lg text-white/50 max-w-lg mb-10 leading-relaxed">
-                Von der Kernsanierung bis zum Gleisbau – Özdemir Bau steht für Qualität, Zuverlässigkeit und handwerkliche Exzellenz seit über 15 Jahren.
+              <p className="hero-sub text-sm sm:text-base lg:text-lg text-white/50 max-w-lg mb-8 sm:mb-10 leading-relaxed">
+                Von der Entkernung bis zur bezugsfertigen Übergabe – Özdemir Bau steht für Qualität, Zuverlässigkeit und handwerkliche Exzellenz seit über 15 Jahren.
               </p>
 
-              <div className="hero-cta flex flex-wrap gap-4">
+              <div className="hero-cta flex flex-wrap gap-3 sm:gap-4">
                 <Link
                   to="/kontakt"
-                  className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-7 py-3.5 rounded-lg text-sm sm:text-base font-semibold transition-colors active:scale-[0.96]"
+                  className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-lg text-sm sm:text-base font-semibold transition-colors active:scale-[0.96]"
                 >
                   Projekt anfragen
                   <ArrowRight size={18} />
                 </Link>
                 <Link
                   to="/leistungen"
-                  className="inline-flex items-center gap-2 bg-white/[0.06] hover:bg-white/[0.12] text-white px-7 py-3.5 rounded-lg text-sm sm:text-base font-semibold transition-colors border border-white/10 active:scale-[0.96]"
+                  className="inline-flex items-center gap-2 bg-white/[0.06] hover:bg-white/[0.12] text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-lg text-sm sm:text-base font-semibold transition-colors border border-white/10 active:scale-[0.96]"
                 >
                   Unsere Leistungen
                 </Link>
               </div>
             </div>
 
-            <div className="hero-slider relative h-[400px] sm:h-[500px] lg:h-[550px]">
+            <div className="hero-slider relative h-[300px] sm:h-[420px] lg:h-[550px]">
               <ImageSlider3D
                 images={sliderImages}
                 duration={28}
@@ -136,8 +146,8 @@ export default function Home() {
 
       {/* ═══ TYPEWRITER BANNER ═══ */}
       <section className="bg-[var(--navy)] border-t border-white/5">
-        <div className="mx-auto max-w-5xl px-5 sm:px-8 py-5 sm:py-8 text-center">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-snug min-h-[2.5em] flex items-center justify-center">
+        <div className="mx-auto max-w-5xl px-[var(--space-container)] py-4 sm:py-6 lg:py-8 text-center">
+          <p className="font-medium text-white/80 whitespace-nowrap flex items-center justify-center text-[0.65rem] sm:text-xs lg:text-sm" style={{ fontFamily: "'JetBrains Mono', 'Fira Code', 'Source Code Pro', monospace" }}>
             <TypewriterInput
               phrases={typewriterPhrases}
               typingSpeed={60}
@@ -145,20 +155,21 @@ export default function Home() {
               pauseDelay={2500}
               cursorColor="var(--accent)"
             />
-          </h2>
+          </p>
         </div>
       </section>
 
       {/* ═══ SERVICES — 3D Arc Carousel ═══ */}
-      <section className="py-20 sm:py-28 bg-[var(--stone)]">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="max-w-2xl mb-10">
-            <div className="accent-line mb-5" />
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[var(--navy)] mb-4">
+      <section style={{ padding: 'var(--space-section) 0' }} className="relative bg-[var(--stone)] overflow-hidden">
+        <ParticlesBackground className="absolute inset-0 z-[1]" />
+        <div className="relative z-10 mx-auto max-w-[90rem] px-[var(--space-container)]">
+          <div className="max-w-2xl mx-auto text-center mb-8 sm:mb-10">
+            <div className="accent-line mb-4 sm:mb-5 mx-auto" />
+            <h2 className="font-extrabold text-[var(--navy)] mb-3 sm:mb-4">
               Unsere Leistungen
             </h2>
-            <p className="text-[var(--text-muted)] text-base sm:text-lg">
-              Sechs Kernbereiche, ein Anspruch: Ergebnisse, die überzeugen.
+            <p className="text-[var(--text-muted)] text-sm sm:text-base lg:text-lg">
+              Komplette Sanierung und Ausbau – von der ersten Wand bis zum letzten Detail.
             </p>
           </div>
 
@@ -177,17 +188,17 @@ export default function Home() {
       </section>
 
       {/* ═══ STANDORT — Globe ═══ */}
-      <section className="relative py-20 sm:py-28 bg-[var(--navy)] overflow-hidden">
+      <section className="relative bg-[var(--navy)] overflow-hidden" style={{ padding: 'var(--space-section) 0' }}>
         <AnimatedFireGlow />
-        <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="relative z-10 mx-auto max-w-[90rem] px-[var(--space-container)]">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
             <div>
-              <div className="accent-line mb-5" />
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-5">
+              <div className="accent-line mb-4 sm:mb-5" />
+              <h2 className="font-extrabold text-white mb-4 sm:mb-5">
                 Tätig in Hannover<br />
                 <span className="text-[var(--accent)]">und Umgebung</span>
               </h2>
-              <p className="text-white/50 text-base sm:text-lg leading-relaxed mb-8 max-w-lg">
+              <p className="text-white/50 text-sm sm:text-base lg:text-lg leading-relaxed mb-6 sm:mb-8 max-w-lg">
                 Unser Einzugsgebiet umfasst die gesamte Region Hannover. Ob Innenstadt oder Umland – wir sind für Sie vor Ort.
               </p>
               <div className="flex flex-wrap gap-2">
@@ -202,8 +213,8 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div className="flex justify-center lg:-mt-16">
-              <div className="relative w-[320px] h-[320px] sm:w-[400px] sm:h-[400px] lg:w-[450px] lg:h-[450px]">
+            <div className="flex items-center justify-center">
+              <div className="relative w-[260px] h-[260px] sm:w-[340px] sm:h-[340px] lg:w-[450px] lg:h-[450px]">
                 {/* Orange glow ring */}
                 <div
                   className="absolute inset-0 rounded-full"
@@ -216,10 +227,10 @@ export default function Home() {
                 <div className="absolute inset-0 rounded-full overflow-hidden">
                   <iframe
                     title="Özdemir Bau Standort"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2430.5!2d9.5955!3d52.4428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b074c8e5b7e8a7%3A0x0!2sBremer+Stra%C3%9Fe+31%2C+30827+Garbsen!5e0!3m2!1sde!2sde!4v1700000000000"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0, filter: 'saturate(0.3) brightness(0.7) contrast(1.2)' }}
+                    src="https://www.google.com/maps?q=Bremer+Straße+31,+30827+Garbsen,+Deutschland&output=embed&z=16"
+                    width="150%"
+                    height="150%"
+                    style={{ border: 0, filter: 'saturate(0.3) brightness(0.7) contrast(1.2)', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
                     allowFullScreen=""
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
@@ -232,48 +243,51 @@ export default function Home() {
       </section>
 
       {/* ═══ PRIVAT ODER GEWERBLICH ═══ */}
-      <section className="py-20 sm:py-28 bg-[var(--stone)]">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <div className="accent-line mb-5 mx-auto" />
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[var(--navy)] mb-4">
+      <section className="bg-[var(--stone)]" style={{ padding: 'var(--space-section) 0' }}>
+        <div className="mx-auto max-w-[90rem] px-[var(--space-container)]">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
+            <div className="accent-line mb-4 sm:mb-5 mx-auto" />
+            <h2 className="font-extrabold text-[var(--navy)] mb-3 sm:mb-4">
               Privat oder gewerblich
             </h2>
-            <p className="text-[var(--text-muted)] text-base sm:text-lg">
+            <p className="text-[var(--text-muted)] text-sm sm:text-base lg:text-lg">
               Ob Eigenheim oder Großprojekt – wir sind für beide Seiten der richtige Partner.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
             {/* Privatkunden */}
-            <div className="group relative rounded-xl overflow-hidden bg-white text-[var(--navy)] shadow-[0px_10px_20px_rgba(80,80,80,0.15)] hover:shadow-[0px_15px_30px_rgba(80,80,80,0.25)] transition-shadow duration-300" style={{ minHeight: '420px' }}>
-              {/* Cover — slides up on hover */}
+            <div
+              className="group relative rounded-xl overflow-hidden bg-white text-[var(--navy)] shadow-[0px_10px_20px_rgba(80,80,80,0.15)] hover:shadow-[0px_15px_30px_rgba(80,80,80,0.25)] transition-shadow duration-300 cursor-pointer min-h-[300px] sm:min-h-[360px] lg:min-h-[420px]"
+              onClick={() => handleCardTap('privat')}
+            >
+              {/* Cover — slides up on hover/tap */}
               <div
-                className="absolute inset-0 z-[2] transition-transform duration-300 ease-in-out group-hover:-translate-y-full"
+                className={`absolute inset-0 z-[2] transition-transform duration-300 ease-in-out group-hover:-translate-y-full ${activeCard === 'privat' ? '-translate-y-full' : ''}`}
                 style={{ background: 'linear-gradient(to top, var(--accent), #f5a623)' }}
               >
-                <div className="w-full h-full flex flex-col items-center justify-center text-white p-8">
-                  <HomeIcon size={56} strokeWidth={1.5} className="mb-4" />
-                  <h3 className="text-3xl font-extrabold">Privatkunden</h3>
+                <div className="w-full h-full flex flex-col items-center justify-center text-white p-6 sm:p-8">
+                  <HomeIcon size={44} strokeWidth={1.5} className="mb-3 sm:mb-4 sm:w-14 sm:h-14" />
+                  <h3 className="font-extrabold">Privatkunden</h3>
                 </div>
               </div>
 
               {/* Content underneath */}
-              <div className="relative z-[1] p-8 sm:p-10 flex flex-col justify-center h-full">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 bg-[var(--accent)]/10 rounded-xl flex items-center justify-center">
-                    <HomeIcon size={28} className="text-[var(--accent)]" />
+              <div className="relative z-[1] p-6 sm:p-8 lg:p-10 flex flex-col justify-center h-full">
+                <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                  <div className="w-11 h-11 sm:w-14 sm:h-14 bg-[var(--accent)]/10 rounded-xl flex items-center justify-center">
+                    <HomeIcon size={22} className="text-[var(--accent)] sm:w-7 sm:h-7" />
                   </div>
-                  <h3 className="text-2xl font-bold text-[var(--navy)]">Privatkunden</h3>
+                  <h3 className="font-bold text-[var(--navy)]">Privatkunden</h3>
                 </div>
                 <p className="text-[var(--text-muted)] leading-relaxed mb-6">
-                  Ihr Zuhause verdient das Beste. Von der Badsanierung über den Dachausbau bis zur kompletten Kernsanierung – wir verwandeln Ihre Wohnträume in Realität.
+                  Ihr Zuhause verdient das Beste. Von der Badsanierung über Putz- und Malerarbeiten bis zur kompletten Kernsanierung – wir verwandeln Ihre Wohnträume in Realität.
                 </p>
                 <ul className="space-y-3">
                   {[
-                    { icon: Bath, text: 'Badsanierung & Modernisierung' },
-                    { icon: Wrench, text: 'Kernsanierung & Umbau' },
-                    { icon: PaintBucket, text: 'Innenausbau & Renovierung' },
+                    { icon: Bath, text: 'Bad- & Sanitärsanierung' },
+                    { icon: Wrench, text: 'Kernsanierung & Entkernung' },
+                    { icon: PaintBucket, text: 'Putz-, Maler- & Fliesenarbeiten' },
                   ].map(({ icon: Icon, text }) => (
                     <li key={text} className="flex items-center gap-3 text-sm text-[var(--navy)]">
                       <Icon size={16} className="text-[var(--accent)] shrink-0" />
@@ -285,34 +299,37 @@ export default function Home() {
             </div>
 
             {/* Gewerbekunden */}
-            <div className="group relative rounded-xl overflow-hidden bg-[var(--navy)] text-white shadow-[0px_10px_20px_rgba(80,80,80,0.15)] hover:shadow-[0px_15px_30px_rgba(80,80,80,0.25)] transition-shadow duration-300" style={{ minHeight: '420px' }}>
-              {/* Cover — slides up on hover */}
+            <div
+              className="group relative rounded-xl overflow-hidden bg-[var(--navy)] text-white shadow-[0px_10px_20px_rgba(80,80,80,0.15)] hover:shadow-[0px_15px_30px_rgba(80,80,80,0.25)] transition-shadow duration-300 cursor-pointer min-h-[300px] sm:min-h-[360px] lg:min-h-[420px]"
+              onClick={() => handleCardTap('gewerbe')}
+            >
+              {/* Cover — slides up on hover/tap */}
               <div
-                className="absolute inset-0 z-[2] transition-transform duration-300 ease-in-out group-hover:-translate-y-full"
+                className={`absolute inset-0 z-[2] transition-transform duration-300 ease-in-out group-hover:-translate-y-full ${activeCard === 'gewerbe' ? '-translate-y-full' : ''}`}
                 style={{ background: 'linear-gradient(to top, #0f1923, #1e3a5f)' }}
               >
-                <div className="w-full h-full flex flex-col items-center justify-center text-white p-8">
-                  <Building size={56} strokeWidth={1.5} className="mb-4" />
-                  <h3 className="text-3xl font-extrabold">Gewerbekunden</h3>
+                <div className="w-full h-full flex flex-col items-center justify-center text-white p-6 sm:p-8">
+                  <Building size={44} strokeWidth={1.5} className="mb-3 sm:mb-4 sm:w-14 sm:h-14" />
+                  <h3 className="font-extrabold">Gewerbekunden</h3>
                 </div>
               </div>
 
               {/* Content underneath */}
-              <div className="relative z-[1] p-8 sm:p-10 flex flex-col justify-center h-full">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 bg-[var(--accent)]/15 rounded-xl flex items-center justify-center">
-                    <Building size={28} className="text-[var(--accent)]" />
+              <div className="relative z-[1] p-6 sm:p-8 lg:p-10 flex flex-col justify-center h-full">
+                <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                  <div className="w-11 h-11 sm:w-14 sm:h-14 bg-[var(--accent)]/15 rounded-xl flex items-center justify-center">
+                    <Building size={22} className="text-[var(--accent)] sm:w-7 sm:h-7" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white">Gewerbekunden</h3>
+                  <h3 className="font-bold text-white">Gewerbekunden</h3>
                 </div>
                 <p className="text-white/50 leading-relaxed mb-6">
-                  Für Unternehmen, Kommunen und Bauträger realisieren wir Projekte jeder Größenordnung – termingerecht, budgetsicher und nach höchsten Standards.
+                  Für Unternehmen, Kommunen und Hausverwaltungen realisieren wir Sanierungsprojekte jeder Größenordnung – termingerecht, budgetsicher und mit Koordination aller Gewerke.
                 </p>
                 <ul className="space-y-3">
                   {[
-                    { icon: Building, text: 'Gewerbe- & Industriebau' },
-                    { icon: Ruler, text: 'Tief- & Gleisbau' },
-                    { icon: Wrench, text: 'Öffentliche Infrastrukturprojekte' },
+                    { icon: Building, text: 'Kernsanierung & Fassadensanierung' },
+                    { icon: Ruler, text: 'Energetische Sanierung & Dämmung' },
+                    { icon: Wrench, text: 'Gewerke-Koordination & Übergabe' },
                   ].map(({ icon: Icon, text }) => (
                     <li key={text} className="flex items-center gap-3 text-sm text-white/70">
                       <Icon size={16} className="text-[var(--accent)] shrink-0" />
@@ -327,22 +344,22 @@ export default function Home() {
       </section>
 
       {/* ═══ KUNDENSTIMMEN ═══ */}
-      <section className="py-20 sm:py-28 bg-white">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="max-w-2xl mb-14">
-            <div className="accent-line mb-5" />
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[var(--navy)] mb-4">
+      <section className="bg-white" style={{ padding: 'var(--space-section) 0' }}>
+        <div className="mx-auto max-w-[90rem] px-[var(--space-container)]">
+          <div className="max-w-2xl mb-10 sm:mb-14">
+            <div className="accent-line mb-4 sm:mb-5" />
+            <h2 className="font-extrabold text-[var(--navy)] mb-3 sm:mb-4">
               Das sagen unsere Kunden
             </h2>
-            <p className="text-[var(--text-muted)] text-base sm:text-lg">
+            <p className="text-[var(--text-muted)] text-sm sm:text-base lg:text-lg">
               Vertrauen entsteht durch Ergebnisse – hier sprechen unsere Auftraggeber.
             </p>
           </div>
 
-          <ThreeDScrollTriggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8" perspective={1200}>
+          <ThreeDScrollTriggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 lg:gap-8" perspective={1200}>
             {testimonials.map(({ text, name, role }, i) => (
               <ThreeDScrollTriggerRow key={name} index={i}>
-                <div className="relative bg-[var(--stone)] rounded-2xl p-8 sm:p-10 h-full">
+                <div className="relative bg-[var(--stone)] rounded-2xl p-6 sm:p-8 lg:p-10 h-full">
                   <Quote size={32} className="text-[var(--accent)]/20 mb-4" />
                   <p className="text-[var(--navy)] text-base leading-relaxed mb-6">
                     „{text}"
@@ -363,36 +380,92 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ═══ PROJEKTE DRIFT ═══ */}
+      <section className="bg-[var(--navy)] overflow-hidden" style={{ padding: 'var(--space-section) 0' }}>
+        <div className="mx-auto max-w-[90rem] px-[var(--space-container)] mb-6 sm:mb-8">
+          <div className="accent-line mb-4 sm:mb-5" />
+          <h2 className="font-extrabold text-white mb-2 sm:mb-3">Unsere Projekte</h2>
+          <p className="text-white/60 text-sm sm:text-base max-w-xl">Einblicke in erfolgreich abgeschlossene Bauvorhaben.</p>
+        </div>
+        <InfiniteDrift
+          bands={[
+            {
+              offsetY: -150, speed: 0.8, rotation: 5, rotationType: 'fromLeft', curveAmount: 30, curveDirection: 1,
+              images: [
+                'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400',
+                'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400',
+                'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400',
+                'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=400',
+              ],
+            },
+            {
+              offsetY: -50, speed: 1.2, rotation: 5, rotationType: 'fromCenter', curveAmount: 25, curveDirection: 1,
+              images: [
+                'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=400',
+                'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400',
+                'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400',
+                'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400',
+              ],
+            },
+            {
+              offsetY: 50, speed: 0.6, rotation: 5, curveAmount: 30, curveDirection: 1,
+              images: [
+                'https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=400',
+                'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400',
+                'https://images.unsplash.com/photo-1590013330451-3946e83e0392?w=400',
+                'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400',
+              ],
+            },
+            {
+              offsetY: 150, speed: 1.0, rotation: 5, curveAmount: 25, curveDirection: 1,
+              images: [
+                'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400',
+                'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400',
+                'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=400',
+                'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=400',
+              ],
+            },
+          ]}
+          height={280}
+          gap={12}
+          imageHeight={80}
+          bandHeight={100}
+          maxImageWidth={220}
+          inertia={0.93}
+          className="bg-[var(--navy)]"
+        />
+      </section>
+
       {/* ═══ CTA SPLIT ═══ */}
       <section className="relative overflow-hidden">
-        <div className="grid lg:grid-cols-2 min-h-[500px]">
-          <div className="img-reveal relative h-64 lg:h-auto">
+        <div className="grid lg:grid-cols-2 min-h-[400px] lg:min-h-[500px]">
+          <div className="img-reveal relative h-48 sm:h-64 lg:h-auto">
             <img
               src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=960&q=80"
               alt="Bauprojekt"
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="bg-[var(--navy)] flex items-center px-8 sm:px-12 lg:px-16 py-16 lg:py-0">
+          <div className="bg-[var(--navy)] flex items-center px-6 sm:px-10 lg:px-16 py-12 sm:py-16 lg:py-0">
             <div className="max-w-lg">
-              <div className="accent-line mb-6" />
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-5 leading-tight">
+              <div className="accent-line mb-5 sm:mb-6" />
+              <h2 className="font-extrabold text-white mb-4 sm:mb-5 leading-tight">
                 Ihr nächstes Projekt<br />beginnt hier.
               </h2>
-              <p className="text-white/60 mb-8 leading-relaxed">
-                Ob Neubau, Sanierung oder Spezialprojekt – wir bringen die Erfahrung, das Team und die Leidenschaft mit, um Ihre Vision Realität werden zu lassen.
+              <p className="text-white/60 mb-6 sm:mb-8 leading-relaxed text-sm sm:text-base">
+                Ob Kernsanierung, Badsanierung oder Innenausbau – wir bringen die Erfahrung, das Team und die Leidenschaft mit, um Ihre Vision Realität werden zu lassen.
               </p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-3 sm:gap-4">
                 <Link
                   to="/kontakt"
-                  className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-7 py-3.5 rounded-lg font-semibold transition-colors active:scale-[0.96]"
+                  className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-lg text-sm sm:text-base font-semibold transition-colors active:scale-[0.96]"
                 >
                   Kostenlose Beratung
                   <ArrowRight size={18} />
                 </Link>
                 <Link
                   to="/projekte"
-                  className="inline-flex items-center gap-2 text-white/70 hover:text-white px-4 py-3.5 font-medium transition-colors"
+                  className="inline-flex items-center gap-2 text-white/70 hover:text-white px-4 py-3 sm:py-3.5 text-sm sm:text-base font-medium transition-colors"
                 >
                   Projekte ansehen
                 </Link>

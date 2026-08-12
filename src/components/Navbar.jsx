@@ -39,11 +39,11 @@ export default function Navbar() {
   return (
     <>
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${navBg}`}>
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="flex h-18 sm:h-20 items-center justify-between">
+        <div className="mx-auto max-w-[90rem] px-[var(--space-container)]">
+          <div className="flex h-16 sm:h-18 lg:h-20 items-center justify-between">
             <Link to="/" className="flex items-center gap-1.5 relative z-[1002]">
-              <span className={`text-xl sm:text-2xl font-extrabold tracking-tight ${textColor} transition-colors`}>ÖZDEMIR</span>
-              <span className={`text-xl sm:text-2xl font-light tracking-tight ${logoAccent} transition-colors`}>BAU</span>
+              <span className={`text-lg sm:text-xl lg:text-2xl font-extrabold tracking-tight ${textColor} transition-colors`}>ÖZDEMIR</span>
+              <span className={`text-lg sm:text-xl lg:text-2xl font-light tracking-tight ${logoAccent} transition-colors`}>BAU</span>
             </Link>
 
             {/* Desktop Nav */}

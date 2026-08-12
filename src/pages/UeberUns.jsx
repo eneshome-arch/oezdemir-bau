@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Shield, Target, Users, Award } from 'lucide-react'
 import AnimatedFireGlow from '@/components/AnimatedFireGlow'
+import ParticlesBackground from '@/components/lightswind/ParticlesBackground'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -45,14 +46,14 @@ export default function UeberUns() {
   return (
     <>
       {/* Header */}
-      <section className="relative bg-[var(--navy)] pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden">
+      <section className="relative bg-[var(--navy)] pt-28 pb-16 sm:pt-36 sm:pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
         <AnimatedFireGlow />
-        <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 page-heading">
-          <div className="accent-line mb-5" />
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-4">
+        <ParticlesBackground className="absolute inset-0 z-[1]" />
+        <div className="relative z-10 mx-auto max-w-[90rem] px-[var(--space-container)] page-heading text-center">
+          <h1 className="font-extrabold text-white mb-3 sm:mb-4">
             Über uns
           </h1>
-          <p className="text-white/60 text-base sm:text-lg max-w-xl">
+          <p className="text-white/60 text-sm sm:text-base lg:text-lg max-w-xl mx-auto">
             Lernen Sie das Unternehmen und die Menschen hinter Özdemir Bau kennen.
           </p>
         </div>
@@ -60,21 +61,21 @@ export default function UeberUns() {
 
       {/* Geschäftsführer Section — Full bleed split */}
       <section className="bg-white">
-        <div className="grid lg:grid-cols-5 min-h-[550px]">
+        <div className="grid lg:grid-cols-5 min-h-[400px] lg:min-h-[550px]">
           {/* Portrait side */}
-          <div className="lg:col-span-2 relative h-72 lg:h-auto overflow-hidden bg-[var(--concrete)]">
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-full bg-[var(--navy)] flex items-center justify-center">
-                <span className="text-5xl sm:text-6xl font-extrabold text-[var(--accent)]">CÖ</span>
+          <div className="lg:col-span-2 relative h-56 sm:h-72 lg:h-auto overflow-hidden bg-[var(--concrete)]">
+            <div className="w-full h-full flex items-center justify-center py-8 lg:py-0">
+              <div className="w-36 h-36 sm:w-48 sm:h-48 lg:w-56 lg:h-56 rounded-full bg-[var(--navy)] flex items-center justify-center">
+                <span className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[var(--accent)]">CÖ</span>
               </div>
             </div>
           </div>
 
           {/* Quote side */}
-          <div className="lg:col-span-3 flex items-center px-6 sm:px-10 lg:px-16 py-14 lg:py-0">
+          <div className="lg:col-span-3 flex items-center px-[var(--space-container)] sm:px-10 lg:px-16 py-10 sm:py-14 lg:py-0">
             <div className="max-w-xl">
-              <div className="accent-line mb-6" />
-              <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[var(--navy)] leading-snug mb-6">
+              <div className="accent-line mb-5 sm:mb-6" />
+              <blockquote className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-[var(--navy)] leading-snug mb-5 sm:mb-6">
                 „Bauen ist mehr als Steine und Beton – es ist Vertrauen, Handwerk und Leidenschaft."
               </blockquote>
               <div className="flex items-center gap-4">
@@ -90,18 +91,18 @@ export default function UeberUns() {
       </section>
 
       {/* Story */}
-      <section className="bg-[var(--stone)] py-20 sm:py-28">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+      <section className="bg-[var(--stone)]" style={{ padding: 'var(--space-section) 0' }}>
+        <div className="mx-auto max-w-[90rem] px-[var(--space-container)]">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[var(--navy)] mb-6">
+            <h2 className="font-extrabold text-[var(--navy)] mb-4 sm:mb-6">
               Unsere Geschichte
             </h2>
-            <div className="space-y-5 text-[var(--text-muted)] leading-relaxed text-base sm:text-lg">
+            <div className="space-y-4 sm:space-y-5 text-[var(--text-muted)] leading-relaxed text-sm sm:text-base lg:text-lg">
               <p>
-                Was 2009 als kleines Bauunternehmen mit fünf Mitarbeitern begann, ist heute eines der vielseitigsten Bauunternehmen der Region Hannover. Geschäftsführer Cem Özdemir bringt nicht nur Fachwissen, sondern vor allem Leidenschaft für das Handwerk mit.
+                Was 2009 als kleines Bauunternehmen mit fünf Mitarbeitern begann, ist heute eines der vielseitigsten Sanierungsunternehmen der Region Hannover. Geschäftsführer Cem Özdemir bringt nicht nur Fachwissen, sondern vor allem Leidenschaft für das Handwerk mit.
               </p>
               <p>
-                Von der Kernsanierung historischer Gebäude bis zum modernen Gleisbau – unser Team aus über 50 Fachkräften meistert jede Herausforderung. Dabei stehen Qualität, Termintreue und eine partnerschaftliche Zusammenarbeit immer an erster Stelle.
+                Von der Entkernung über Trockenbau, Fliesen- und Malerarbeiten bis zur bezugsfertigen Übergabe – unser Team aus über 50 Fachkräften koordiniert sämtliche Gewerke aus einer Hand. Dabei stehen Qualität, Termintreue und eine partnerschaftliche Zusammenarbeit immer an erster Stelle.
               </p>
             </div>
           </div>
@@ -109,11 +110,11 @@ export default function UeberUns() {
       </section>
 
       {/* Timeline */}
-      <section className="timeline-section bg-white py-20 sm:py-28">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="max-w-2xl mb-14">
-            <div className="accent-line mb-5" />
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[var(--navy)]">
+      <section className="timeline-section bg-white" style={{ padding: 'var(--space-section) 0' }}>
+        <div className="mx-auto max-w-[90rem] px-[var(--space-container)]">
+          <div className="max-w-2xl mb-10 sm:mb-14">
+            <div className="accent-line mb-4 sm:mb-5" />
+            <h2 className="font-extrabold text-[var(--navy)]">
               Meilensteine
             </h2>
           </div>
@@ -137,19 +138,19 @@ export default function UeberUns() {
       </section>
 
       {/* Values */}
-      <section className="values-section bg-[var(--navy)] py-20 sm:py-28">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="max-w-2xl mb-14">
-            <div className="accent-line mb-5" />
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+      <section className="values-section bg-[var(--navy)]" style={{ padding: 'var(--space-section) 0' }}>
+        <div className="mx-auto max-w-[90rem] px-[var(--space-container)]">
+          <div className="max-w-2xl mb-10 sm:mb-14">
+            <div className="accent-line mb-4 sm:mb-5" />
+            <h2 className="font-extrabold text-white">
               Unsere Werte
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {values.map(({ icon: Icon, title, desc }) => (
               <div key={title} className="value-item">
-                <div className="w-14 h-14 bg-[var(--accent)]/15 rounded-xl flex items-center justify-center mb-5">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[var(--accent)]/15 rounded-xl flex items-center justify-center mb-4 sm:mb-5">
                   <Icon size={24} className="text-[var(--accent)]" />
                 </div>
                 <h3 className="text-lg font-bold text-white mb-2">{title}</h3>
@@ -161,25 +162,25 @@ export default function UeberUns() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[var(--stone)] py-20 sm:py-24">
-        <div className="mx-auto max-w-4xl px-5 sm:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-[var(--navy)] mb-4">
+      <section className="bg-[var(--stone)]" style={{ padding: 'var(--space-section) 0' }}>
+        <div className="mx-auto max-w-4xl px-[var(--space-container)] text-center">
+          <h2 className="font-extrabold text-[var(--navy)] mb-3 sm:mb-4">
             Teil des Teams werden?
           </h2>
-          <p className="text-[var(--text-muted)] text-base sm:text-lg mb-8 max-w-xl mx-auto">
+          <p className="text-[var(--text-muted)] text-sm sm:text-base lg:text-lg mb-6 sm:mb-8 max-w-xl mx-auto">
             Wir suchen engagierte Fachkräfte, die mit uns die Zukunft bauen.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               to="/karriere"
-              className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-8 py-4 rounded-lg font-bold transition-colors active:scale-[0.96]"
+              className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-bold transition-colors active:scale-[0.96]"
             >
               Offene Stellen
               <ArrowRight size={18} />
             </Link>
             <Link
               to="/kontakt"
-              className="inline-flex items-center gap-2 bg-[var(--navy)] hover:bg-[var(--navy-light)] text-white px-8 py-4 rounded-lg font-bold transition-colors active:scale-[0.96]"
+              className="inline-flex items-center gap-2 bg-[var(--navy)] hover:bg-[var(--navy-light)] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-bold transition-colors active:scale-[0.96]"
             >
               Kontakt aufnehmen
             </Link>

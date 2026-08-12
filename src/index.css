@@ -9,6 +9,22 @@
   src: url('https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjQ.woff2') format('woff2');
 }
 
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/jetbrainsmono/v20/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxTOlOTk6OThhvA.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Pacifico';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/pacifico/v22/FwZY7-Qmy14u9lezJ-6H6MmBp0u-.woff2') format('woff2');
+}
+
 /* ── Custom Properties ── */
 :root {
   --navy: #0f1923;
@@ -21,11 +37,17 @@
   --steel: #3a4550;
   --text-dark: #1a1a1a;
   --text-muted: #5a6570;
+
+  /* Fluid spacing: scales from 320px to 1440px viewport */
+  --space-section: clamp(3.5rem, 5vw + 1rem, 7rem);
+  --space-container: clamp(1rem, 3vw, 2rem);
 }
 
 /* ── Base ── */
 html {
   scroll-behavior: auto;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
 }
 
 body {
@@ -35,10 +57,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  overscroll-behavior-x: none;
   line-height: 1.6;
 }
 
-/* ── Typography ── */
+/* ── Typography — fluid sizes ── */
+h1 { font-size: clamp(2rem, 5vw + 0.5rem, 4rem); }
+h2 { font-size: clamp(1.5rem, 3.5vw + 0.25rem, 3rem); }
+h3 { font-size: clamp(1.15rem, 2vw + 0.25rem, 1.75rem); }
+
 h1, h2, h3, h4 {
   line-height: 1.08;
   text-wrap: balance;
@@ -107,6 +134,110 @@ html.lenis, html.lenis body {
 .img-reveal:hover img {
   transform: scale(1.05);
 }
+
+/* ── Touch devices: no hover ── */
+@media (hover: none) {
+  .group:hover .group-hover\:-translate-y-full {
+    transform: none;
+  }
+}
+
+/* ── Large screens (4K): cap max-width ── */
+@media (min-width: 1920px) {
+  body {
+    font-size: 1.0625rem;
+  }
+}
+
+/* ── Social icon hover animation ── */
+@keyframes slideInTop {
+  0% { transform: translateY(-50px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* ── Phone Card (Maps) ── */
+.phone-card {
+  width: 210px;
+  height: 400px;
+  background: black;
+  border-radius: 35px;
+  border: 2px solid rgb(40, 40, 40);
+  padding: 7px;
+  position: relative;
+  box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.486);
+}
+
+.phone-card-int {
+  height: 100%;
+  border-radius: 25px;
+  overflow: hidden;
+}
+
+.phone-top {
+  position: absolute;
+  top: 0;
+  right: 50%;
+  transform: translate(50%, 0);
+  width: 35%;
+  height: 18px;
+  background-color: rgb(1, 1, 1);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.phone-speaker {
+  position: absolute;
+  top: 2px;
+  right: 50%;
+  transform: translate(50%, 0);
+  width: 40%;
+  height: 2px;
+  border-radius: 2px;
+  background-color: rgb(20, 20, 20);
+}
+
+.phone-camera {
+  position: absolute;
+  top: 6px;
+  right: 84%;
+  transform: translate(50%, 0);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.048);
+}
+
+.phone-camera-int {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  background-color: rgba(0, 0, 255, 0.212);
+}
+
+.phone-btn1, .phone-btn2, .phone-btn3, .phone-btn4 {
+  position: absolute;
+  width: 2px;
+}
+
+.phone-btn1 {
+  height: 45px;
+  top: 30%;
+  right: -4px;
+  background-image: linear-gradient(to right, #111, #222, #333, #464646, #595959);
+}
+
+.phone-btn2, .phone-btn3 {
+  height: 30px;
+  left: -4px;
+  background-image: linear-gradient(to left, #111, #222, #333, #464646, #595959);
+}
+
+.phone-btn2 { top: 26%; }
+.phone-btn3 { top: 36%; }
 
 /* ── Accessibility ── */
 @media (prefers-reduced-motion: reduce) {

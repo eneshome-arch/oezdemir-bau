@@ -18,18 +18,18 @@ Geschäftsführer: Cem Özdemir. Adresse: Bremer Straße 31, 30827 Garbsen.
 - Einzigartige Layouts: Split-Screen, Full-Bleed, Masonry, 3D Carousel
 
 ## Seiten
-- **Home:** Hero mit AnimatedFireGlow + 3D Image Slider, TypewriterInput-Banner, 3D Arc Carousel (Leistungen), Privat/Gewerblich Hover-Cards, Standort mit Google Maps, Kundenstimmen mit 3D ScrollTrigger, CTA Split
-- **Leistungen:** 6 alternierte Split-Screen Sektionen
-- **Projekte:** InfiniteDrift Hero-Galerie, Filter-Tabs, Masonry-Grid
-- **Über uns:** GF-Portrait, Geschichte, Timeline, Werte
-- **Kontakt:** Kontaktinfos, Formular + Google Maps
-- **Karriere:** Benefits, Accordion-Stellenangebote, Bewerbungsformular
+- **Home:** Hero mit AnimatedFireGlow + 3D Image Slider, TypewriterInput-Banner, ParticlesBackground + 3D Arc Carousel (Leistungen), InfiniteDrift Projekte-Galerie, Privat/Gewerblich Hover-Cards, Standort mit Google Maps, Kundenstimmen mit 3D ScrollTrigger, CTA Split
+- **Leistungen:** 9 alternierte Split-Screen Sektionen, ParticlesBackground Hero
+- **Projekte:** Filter-Tabs, Masonry-Grid, ParticlesBackground Hero
+- **Über uns:** GF-Portrait, Geschichte, Timeline, Werte, ParticlesBackground Hero
+- **Kontakt:** Kontaktinfo-Karten mit Hover-Inversion, Formular + Phone-Card Google Maps, ParticlesBackground Hero
+- **Karriere:** Benefits, 12 Accordion-Stellenangebote, Online-Bewerbungsformular mit Datei-Upload (FormSubmit.co), ParticlesBackground Hero
 
 ## Struktur
 ```
 src/
   components/       → Navbar, Footer, ScrollToTop, AnimatedFireGlow, ThreeDArcCarousel, TypewriterInput
-  components/lightswind/ → 3d-image-slider, infinite-drift, HamburgerMenuOverlay, globe, ThreeDScrollTrigger
+  components/lightswind/ → 3d-image-slider, infinite-drift, HamburgerMenuOverlay, globe, ThreeDScrollTrigger, ParticlesBackground, Iphone16Pro, ScrollList, satin-flow
   pages/            → Home, Leistungen, Projekte, UeberUns, Kontakt, Karriere
   hooks/            → use-mobile, use-toast
   lib/              → utils (cn)
